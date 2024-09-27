@@ -5,14 +5,14 @@ import { Platform } from '@gandalf-network/connect/components';
 
 
 export default function Gandalf() {
-    const [qrCodeDataUrl, setQrCodeDataUrl] = useState(null);
+    const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
 
   useEffect(() => {
     const initializeConnect = async () => {
       // Initialize Connect
       const connect = new Connect({
         publicKey: '0x02015e78df7470d4236cfa05f684c56796886a172e7612db33e2e06258f895ed3d',
-        redirectURL: 'http://localhost:3000/Onboarding',
+        redirectURL: 'http://localhost:3000/',
         platform: Platform.UNIVERSAL,
         services: {
           netflix: {
