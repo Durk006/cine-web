@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import SignupForm from "@/app/components/SignUpForm";
 import VerifyForm from "@/app/components/VerifyForm";
+import { Session } from "inspector/promises";
 
 export default function signUp() {
 const {isLoaded, signUp, setActive} = useSignUp();
@@ -53,6 +54,7 @@ const {isLoaded, signUp, setActive} = useSignUp();
     
           if (completeSignUp.status === "complete") {
             await setActive({session: completeSignUp.createdSessionId});
+            console.log(JSON.stringify(completeSignUp, null, 2))
             router.push("/");
           }
         } catch (err) {

@@ -1,14 +1,14 @@
 "use client";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import Home from "./pages/home";
 
 export default function title_page() {
   const { isSignedIn } = useUser();
 
   return (
     <div>
-      <h1>Hello!</h1>
-      {isSignedIn && <h1>You are logged in!</h1>}
+      {isSignedIn && <Home/>}
       <div>
         {!isSignedIn ? (
           <div>
