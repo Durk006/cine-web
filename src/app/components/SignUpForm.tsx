@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 interface SignUpFormProps {
-    signUpWithEmail: ({ username, emailAddress, password }: { username: string, emailAddress: string; password: string }) => void;
+    signUpWithEmail: ({ username, emailAddress, password }: { username: string; emailAddress: string; password: string }) => void;
     clerkError: string;
 }
 
@@ -13,20 +13,20 @@ const SignupForm = ({ signUpWithEmail, clerkError }: SignUpFormProps) => {
                 onSubmit={(e) => {
                     e.preventDefault();
                     const target = e.target as typeof e.target & {
-                        username: {value:string};
+                        username: { value: string };
                         email: { value: string };
                         password: { value: string };
                     };
                     const username = target.username.value;
                     const email = target.email.value;
                     const password = target.password.value;
-                    signUpWithEmail({ username: username, emailAddress: email, password });
+                    signUpWithEmail({ username, emailAddress: email, password });
                 }}
             >
                 <input
                     name="username"
                     placeholder="Username"
-                    type="username"
+                    type="text"
                     required
                 />
                 <input
@@ -42,9 +42,7 @@ const SignupForm = ({ signUpWithEmail, clerkError }: SignUpFormProps) => {
                     required
                 />
                 {clerkError && <p>{clerkError}</p>}
-                <button type="submit">
-                    Create an account
-                </button>
+                <button type="submit">Create an account</button>
             </form>
             <p>
                 Already have an account?
