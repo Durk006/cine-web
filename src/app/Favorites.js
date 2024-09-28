@@ -132,7 +132,7 @@ export default function Page() {
   return (
     <main className="bg-slate-700 min-h-screen p-20">
       <div className="mb-12">
-        <MovieListHeading heading="Movie Gallery"/>
+        <MovieListHeading heading="Cine-Web"/>
         <p className="text-center text-2xl text-white">Welcome to Movie Gallery!</p>
         <div className="flex flex-col items-center justify-center mt-6">
             <SearchBox value={searchValue} onChange={setSearchValue} onClear={handleClearSearch} />
