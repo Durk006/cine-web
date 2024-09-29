@@ -13,7 +13,7 @@ export default function Gandalf() {
       const connect = new Connect({
         publicKey: '0x02015e78df7470d4236cfa05f684c56796886a172e7612db33e2e06258f895ed3d',
         redirectURL: 'http://localhost:3000/pages',
-        platform: Platform.IOS,
+        platform: Platform.UNIVERSAL,
         services: {
           youtube: {
             activities: ["watch"],
@@ -39,7 +39,13 @@ export default function Gandalf() {
   return (
     <div>
       {qrCodeDataUrl ? (
-        <img src={qrCodeDataUrl} alt="Connect QR Code" />
+        <div>
+           <img src={qrCodeDataUrl} alt="Connect QR Code" />
+           Connect by scanning this qr code on your phone
+
+        </div>
+       
+        
       ) : (
         <p>Loading QR Code...</p>
       )}
