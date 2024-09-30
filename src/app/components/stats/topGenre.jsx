@@ -1,0 +1,1 @@
+//look at all or recent 100 and checks which genre appears the most
