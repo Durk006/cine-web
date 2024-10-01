@@ -2,17 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import Connect  from '@gandalf-network/connect';
 import { Platform } from '@gandalf-network/connect/components';
+import { useAuth } from '@clerk/nextjs';
 
 
 export default function Gandalf() {
     const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
+    const [status, setStatus] = useState<boolean>(false);
 
   useEffect(() => {
     const initializeConnect = async () => {
       // Initialize Connect
       const connect = new Connect({
         publicKey: '0x02015e78df7470d4236cfa05f684c56796886a172e7612db33e2e06258f895ed3d',
-        redirectURL: 'http://localhost:3000/pages',
+        redirectURL: 'http://192.168.1.196:3000/pages',
         platform: Platform.UNIVERSAL,
         services: {
           youtube: {
@@ -27,11 +29,18 @@ export default function Gandalf() {
         console.log('Generated Connect URL:', connectUrl);
 
         const qrCodeUrl = await connect.generateQRCode();
-        setQrCodeDataUrl(qrCodeUrl); 
+        setQrCodeDataUrl(qrCodeUrl);
+
+        const connectStatus = connect.verificationComplete;
+        setStatus(connectStatus);
+
+  
       } catch (error) {
         console.error('Error generating Connect URL or QR Code:', error);
       }
     };
+
+  
 
     initializeConnect();
   }, []);
@@ -42,6 +51,8 @@ export default function Gandalf() {
         <div>
            <img src={qrCodeDataUrl} alt="Connect QR Code" />
            Connect by scanning this qr code on your phone
+           <br/> 
+           status: {status}
 
         </div>
        

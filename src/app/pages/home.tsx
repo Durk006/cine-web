@@ -1,23 +1,24 @@
-import React from 'react'
+import { useAuth, useUser } from '@clerk/nextjs';
 import Gandalf from '../components/Gandalf';
-<<<<<<< HEAD
-import Connect from '@gandalf-network/connect';
-=======
->>>>>>> 04266e11428b5b95e844e853981907fa0d40c41f
+import connect from '@gandalf-network/connect';
 
-function Home() {
+const Home = () => {
+    const {sessionId } = useAuth();
+    const {user} = useUser();
 
-  return (
-<<<<<<< HEAD
-    <div>home
-      <Gandalf/>
-      
-    </div>
-=======
-    <div>hello</div>
->>>>>>> 04266e11428b5b95e844e853981907fa0d40c41f
-    
-  )
-}
+    return (
+        <div>
+            {user ? (
+                <>
+                    <h1>Welcome, {user.username}!</h1>
+                    <p>Your session ID is: {sessionId}</p>
+                    <Gandalf/>
+                </>
+            ) : (
+                <p>Please sign in.</p>
+            )}
+        </div>
+    );
+};
 
 export default Home;

@@ -1,22 +1,25 @@
-"use client"
+"use client";
 import connect from '@gandalf-network/connect';
-import React, { useEffect, useState } from 'react'
+import {useRouter} from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
-function page() {
+function Page() {
     const [dataKey, setDataKey] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
-        const currentUrl = window.location.href;
+        const currentUrl = window.location.href; // Gets the current browser URL
         const key = connect.getDataKeyFromURL(currentUrl);
-        setDataKey(key);
-    }, []);
-  return (
-    <div>
-        You are connected.
-        <p>data key: {dataKey}</p>
-      
-    </div>
-  )
+        setDataKey(key); // Set the dataKey state
+  },); // Include router as a dependency
+
+
+    return (
+        <div>
+            You are connected.
+            datakey:{dataKey}
+        </div>
+    );
 }
 
-export default page;
+export default Page;
