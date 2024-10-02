@@ -22,26 +22,34 @@ export default function CSVUpload() {
   };
 
   const parseCSV = (content) => {
-    const rows = content.split('\n').map(row => row.split(','));
-    const headers = rows[0];
+    const rows = content.split('\n').map(row => row.split(','));  // Split CSV into rows and columns
+  
+    if (rows.length === 0) return;  // Exit if there are no rows
+  
+    const headers = rows[0];  // The first row is the headers
+  
+    // Map each row of data to an object with keys corresponding to headers
     const mappedRows = rows.slice(1).map(row => {
       let rowData = {};
+  
       row.forEach((cell, index) => {
-        rowData[headers[index]] = cell.replace(/"/g, '');
+        const header = headers[index] && headers[index].trim();  // Ensure header exists and is trimmed
+        if (header) {
+          rowData[header] = cell ? cell.replace(/"/g, '').trim() : '';  // Clean up cell data or default to empty string
+        }
       });
+  
       return rowData;
     });
-    setCsvData(mappedRows.slice(0, 20));  // Save data to context
+  
+    setCsvData(mappedRows.slice(0, 20));  // Save the first 20 rows to state
   };
+  
 
   return (
     <div className="csv-upload">
       <h1>Please Enter Netflix Watch History</h1>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-      
-      {csvData.length > 0 && csvData.map((row, index) => (
-        <QuickMovie key={index} row={row} />
-      ))}
     </div>
   );
 }

@@ -19,6 +19,10 @@ export default function title_page() {
         <Link href = "/watchHistory">Watch History</Link>
         <br/>
         <Link href = "/genre">Top Genre's</Link>
+        <br/>
+        <Link href = "/favourites">Favorites</Link>
+        <br/>
+        <Link href = "/watchList">Watch List</Link>
       </div>
       }
       <div>

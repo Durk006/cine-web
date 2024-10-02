@@ -3,7 +3,7 @@
 
 import { useState,useEffect } from "react";
 
-function QuickMovie({ row }) {
+function QuickMovie({ row ,Date}) {
     const [movie, setMovie] = useState(null);
   
     useEffect(() => {
@@ -33,6 +33,7 @@ function QuickMovie({ row }) {
           height={450} 
         />
         <p>{row.Title}</p>
+        <p>{Date}</p>
       </div>
     );
   }

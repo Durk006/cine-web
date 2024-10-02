@@ -1,75 +1,58 @@
 'use client'
 import { useCsv } from '../context/CsvContext';
+import QuickMovie from '../components/quickMovie';
 import { useState, useEffect } from 'react';
 
 export default function Genre() {
-  const { csvData } = useCsv();
-  const [topGenres, setTopGenres] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { csvData } = useCsv(); 
+  const [genreData, setGenreData] = useState([]);
 
-  // Function to get the current year
-  const getCurrentYear = () => new Date().getFullYear();
+  const fetchMovieGenre = async (title) => {
+    const response = await fetch(`https://www.omdbapi.com/?apikey=b0620182&t=${encodeURIComponent(title)}`);
+    const movieData = await response.json();
+    return movieData.Genre;
+  };
 
   useEffect(() => {
-    const currentYear = getCurrentYear();
+    const getTopGenres = async () => {
+      // Filter by top 20 movies for the current year
+      const filteredData = csvData.slice(0, 20);
+      
+      let genreCount = {};
 
-    const fetchGenres = async () => {
-      const genreCount = {};
-      const apiKey = 'b0620182';  // Replace with your actual OMDB API key
+      for (const movie of filteredData) {
+      console.log(movie.Title)
+        const genre = await fetchMovieGenre(movie.Title);
+        
+        if (genre) {
+          const genreList = genre.split(', ').map(g => g.trim());
 
-      const filteredData = csvData.filter(movie => {
-        const movieYear = new Date(movie.Date).getFullYear();
-        return movieYear === currentYear;
-      });
-
-      console.log(filteredData)
-
-      for (let movie of filteredData) {
-        try {
-          const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&t=${encodeURIComponent(movie.Title)}`);
-          const data = await response.json();
-          
-          if (data.Genre) {
-            
-            const genres = data.Genre.split(',');  // Split the genres by comma
-            genres.forEach(genre => {
-              genre = genre.trim();  // Trim any extra spaces
-              genreCount[genre] = (genreCount[genre] || 0) + 1;  // Count each genre
-            });
-          }
-        } catch (error) {
-          console.error(`Error fetching genre for ${movie.Title}:`, error);
+          genreList.forEach(g => {
+            genreCount[g] = (genreCount[g] || 0) + 1;
+          });
         }
       }
 
-      // Convert genreCount object to array and sort
       const sortedGenres = Object.entries(genreCount)
-        .sort((a, b) => b[1] - a[1])  // Sort by count descending
-        .slice(0, 10);  // Take top 10 genres
+        .sort(([, countA], [, countB]) => countB - countA)
+        .slice(0, 10);
 
-      setTopGenres(sortedGenres);  // Update state with top genres
-      setLoading(false);  // Stop loading
+      setGenreData(sortedGenres);
     };
 
-    fetchGenres();
+    if (csvData.length > 0) {
+      getTopGenres();
+    }
   }, [csvData]);
 
   return (
     <div>
-      <h1>Top Genres of {getCurrentYear()}</h1>
-      {loading ? (
-        <p>Loading genres...</p>
-      ) : (
-        topGenres.length > 0 ? (
-          topGenres.map(([genre, count], index) => (
-            <div key={index}>
-              <p>{genre} - {count} movies</p>
-            </div>
-          ))
-        ) : (
-          <p>No genres found for the current year.</p>
-        )
-      )}
+      <h1>Top Genres of the Year</h1>
+      {genreData.length > 0 && genreData.map(([genre, count], index) => (
+        <div key={index}>
+          <p>{genre}: {count} movies</p>
+        </div>
+      ))}
     </div>
   );
 }
