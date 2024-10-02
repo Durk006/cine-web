@@ -1,40 +1,18 @@
-// components/WatchHistory.js
-'use client'
-// pages/watchHistory.js
-import { useEffect, useState } from 'react';
+// pages/OtherPage.js
+'use client';
+import { useCsv } from '../context/CsvContext';
 
-const WatchHistory = () => {
-  const [csvText, setCsvText] = useState('');
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchCsv = async () => {
-      try {
-        const response = await fetch('../api/fetchCsv');
-        if (!response.ok) {
-          throw new Error('Failed to fetch CSV');
-        }
-
-        const data = await response.json();
-        setCsvText(data.csvText);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-
-    fetchCsv();
-  }, []);
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+export default function OtherPage() {
+  const { csvData } = useCsv();  // Access csvData here
 
   return (
     <div>
-      <h1>CSV Content:</h1>
-      <pre>{csvText}</pre>
+      <h1>Movies List</h1>
+      {csvData.map((row, index) => (
+        <div key={index}>
+          <p>{row.Title} - {row.Date}</p>
+        </div>
+      ))}
     </div>
   );
-};
-
-export default WatchHistory;
+}
