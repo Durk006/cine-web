@@ -5,8 +5,6 @@ import { useCsv } from './context/CsvContext';
 
 export default function title_page() {
   const { isSignedIn } = useUser();
-  const { csvData } = useCsv();  // Access csvData from context
-
 
   return (
     <div>
@@ -23,6 +21,8 @@ export default function title_page() {
         <Link href = "/favourites">Favorites</Link>
         <br/>
         <Link href = "/watchList">Watch List</Link>
+        <br/>
+        <Link href = "/watchTime">Total Watch Time</Link>
       </div>
       }
       <div>

@@ -2,9 +2,11 @@
 'use client'
 
 import { useState,useEffect } from "react";
+import {Link} from 'next/navigation'
 
 function QuickMovie({ row ,Date}) {
     const [movie, setMovie] = useState(null);
+    const link = '/description/'+ row.Title
   
     useEffect(() => {
       const fetchMovieData = async () => {
@@ -23,16 +25,18 @@ function QuickMovie({ row ,Date}) {
     }, [row.Title]);
   
     if (!movie){ return <div>Loading...</div>;}
-  
+
     return (
       <div>
-        <img 
-          src={movie.Poster} 
-          alt={`${movie.Title} Poster`} 
-          width={300} 
-          height={450} 
-        />
-        <p>{row.Title}</p>
+        <a href = {link}>
+          <img 
+            src={movie.Poster} 
+            alt={`${movie.Title} Poster`} 
+            width={300} 
+            height={450} 
+          />
+          <p>{row.Title}</p>
+        </a>
         <p>{Date}</p>
       </div>
     );
